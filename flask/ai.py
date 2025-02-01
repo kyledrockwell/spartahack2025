@@ -22,7 +22,7 @@ def index():
         # Prepare the request payload
         headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
         payload = {
-            "model": "openai/gpt-3.5-turbo",  # Choose a model from OpenRouter
+            "model": "google/gemini-2.0-flash-thinking-exp:free",
             "messages": [{"role": "user", "content": prompt + " " + user_message}]
         }
 
@@ -31,6 +31,7 @@ def index():
 
         # Handle the response
         if response.status_code == 200:
+            print(response.json())
             response_text = response.json()["choices"][0]["message"]["content"]
         else:
             response_text = f"Error: {response.text}"
