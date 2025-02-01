@@ -95,19 +95,27 @@
                 document.querySelector('form').appendChild(resultDiv);
             }
             
-            if (response.status !== 200) {
+            // Update the error handling part in your form submit handler
+            if (response.status === 429) {
                 resultDiv.innerHTML = `
-                    <h3>Analysis Error:</h3>
+                    <h3>Rate Limit Exceeded</h3>
                     <div class="error-message">
-                        <p>${result.message || 'An error occurred during analysis'}</p>
-                        ${result.details ? `<p class="error-details">${result.details}</p>` : ''}
-                        ${response.status === 429 ? 
-                            `<p class="retry-message">
-                                <button class="retry-button" onclick="retryAnalysis(event)">
-                                    Retry Analysis
-                                </button>
-                            </p>` 
-                            : ''}
+                        <p><strong>The API is currently experiencing high traffic.</strong></p>
+                        <p>Please wait a moment before trying again.</p>
+                        <button class="retry-button" onclick="retryAnalysis(event)">
+                            Retry Analysis
+                        </button>
+                    </div>
+                `;
+            } else if (response.status !== 200) {
+                resultDiv.innerHTML = `
+                    <h3>Analysis Error</h3>
+                    <div class="error-message">
+                        <p><strong>An error occurred while analyzing your code.</strong></p>
+                        <p>Please try again in a few moments.</p>
+                        <button class="retry-button" onclick="retryAnalysis(event)">
+                            Try Again
+                        </button>
                     </div>
                 `;
             } else {
@@ -167,5 +175,49 @@
 </script>
 
 <style>
+.error-message {
+    background-color: #2a1515;  /* Darker red background for dark mode */
+    border: 1px solid #8b3e3e;  /* Visible border */
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
 
+.error-message h3 {
+    color: #ff6b6b;  /* Bright red for error heading */
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.error-message p {
+    color: #ffa6a6;  /* Lighter red for error text */
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.retry-button {
+    background-color: #2d5a88;  /* Blue button */
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+    background-color: #3d6a98;
+}
+
+/* Make sure the error heading at the top is also styled properly */
+.result h3 {
+    color: #e4e4e4;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
 </style>

@@ -547,3 +547,36 @@ textarea {
     margin-top: 0.5rem;
     color: #666;
 }
+
+
+.error-message {
+    background-color: #442222;
+    border: 1px solid #662222;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.error-message p {
+    color: #ff9999;
+    margin: 0.5rem 0;
+}
+
+.error-message strong {
+    color: #ffcccc;
+    font-size: 1.1em;
+}
+
+.retry-button {
+    background-color: #2244dd;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.retry-button:hover {
+    background-color: #3355ee;
+}

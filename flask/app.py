@@ -90,17 +90,17 @@ def analyze():
         
         analysis_result = mock_analyze_code(context, code, language)
         
-        # Check for rate limit error
+        # Handle rate limit error specifically
         if isinstance(analysis_result, dict) and 'error' in analysis_result:
-            if '429' in str(analysis_result) or 'quota' in analysis_result['error'].get('message', '').lower():
-                raise RateLimitException("API rate limit exceeded. Please wait 60 seconds and try again.")
-            return jsonify({
-                "status": "error",
-                "message": "API error",
-                "details": analysis_result['error'].get('message', 'Unknown error')
-            }), 400
-
-        # Extract the analysis content from successful response
+            error_data = analysis_result.get('error', {})
+            if error_data.get('code') == 429 or 'quota' in str(error_data).lower():
+                return jsonify({
+                    "status": "error",
+                    "message": "Rate Limit Exceeded",
+                    "details": "Please wait 60 seconds before trying again. The API has reached its request limit."
+                }), 429
+        
+        # Handle successful response
         if isinstance(analysis_result, dict) and 'choices' in analysis_result:
             analysis_content = analysis_result['choices'][0]['message']['content']
             return jsonify({
@@ -108,20 +108,19 @@ def analyze():
                 "analysis": analysis_content
             })
             
-        return jsonify(analysis_result)
-        
-    except RateLimitException as e:
         return jsonify({
             "status": "error",
-            "message": str(e),
-            "details": "The API is rate limited. Please wait and try again."
-        }), 429
+            "message": "Unexpected response format",
+            "details": "Please try again"
+        }), 400
+        
     except Exception as e:
         return jsonify({
             "status": "error",
-            "message": "An error occurred during analysis",
+            "message": "Analysis Error",
             "details": str(e)
         }), 400
+        
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
