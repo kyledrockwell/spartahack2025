@@ -77,6 +77,9 @@ def index():
                          context=context, 
                          code=code)
 
+class RateLimitException(Exception):
+    pass
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze():
     try:
@@ -86,12 +89,39 @@ def analyze():
         language = data.get('language', 'python')
         
         analysis_result = mock_analyze_code(context, code, language)
+        
+        # Check for rate limit error
+        if isinstance(analysis_result, dict) and 'error' in analysis_result:
+            if '429' in str(analysis_result) or 'quota' in analysis_result['error'].get('message', '').lower():
+                raise RateLimitException("API rate limit exceeded. Please wait 60 seconds and try again.")
+            return jsonify({
+                "status": "error",
+                "message": "API error",
+                "details": analysis_result['error'].get('message', 'Unknown error')
+            }), 400
+
+        # Extract the analysis content from successful response
+        if isinstance(analysis_result, dict) and 'choices' in analysis_result:
+            analysis_content = analysis_result['choices'][0]['message']['content']
+            return jsonify({
+                "status": "success",
+                "analysis": analysis_content
+            })
+            
         return jsonify(analysis_result)
         
+    except RateLimitException as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e),
+            "details": "The API is rate limited. Please wait and try again."
+        }), 429
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-
+        return jsonify({
+            "status": "error",
+            "message": "An error occurred during analysis",
+            "details": str(e)
+        }), 400
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
@@ -108,9 +138,13 @@ def auth_callback():
 def dashboard():
     return redirect(url_for('dashboard_personal'))
 
-@app.route('/dashboard/personal')
+@app.route('/dashboard/personal', methods=['GET', 'POST'])
 # @login_required
 def dashboard_personal():
+    if request.method == 'POST':
+        # Handle POST request logic here
+        pass
+    # Handle GET request
     return render_template('dashboard.html', 
                          active_page='personal',
                          username=session.get('username', 'User'))

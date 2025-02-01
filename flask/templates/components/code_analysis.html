@@ -2,12 +2,11 @@
     <form method="POST">
         <!-- Context input -->
         <label class="input-label">Context:</label>
-        <textarea 
-            name="context" 
+        <textarea
+            name="context"
             class="context-input"
             placeholder="Enter context for your code analysis..."
         >{{ context if context else '' }}</textarea>
-
         <div class="editor-header">
             <label>Code:</label>
             <select name="language" class="language-select">
@@ -31,15 +30,9 @@
                 <pre><code id="codeOutput"></code></pre>
             </div>
         </div>
-        
-        <button type="submit">Analyze Code</button>
-        
-        {% if result %}
-        <div class="result">
-            <h3>Analysis Result:</h3>
-            <pre><code>{{ result }}</code></pre>
-        </div>
-        {% endif %}
+       
+        <button type="submit" class="submit-button">Analyze Code</button>
+        <div class="result"></div>
     </form>
 </div>
 
@@ -52,24 +45,103 @@
     const languageSelect = document.querySelector('.language-select');
 
     // Configure highlight.js
-    // Configure highlight.js with the languages we want
-    hljs.configure({ 
+    hljs.configure({
         languages: ['python', 'javascript', 'java', 'cpp', 'html', 'css'],
     });
 
     function updateCode() {
         const code = codeInput.value || ' ';
         const language = languageSelect.value;
-        
+       
         // Update code highlighting
         codeOutput.className = `hljs language-${language}`;
         codeOutput.textContent = code;
         hljs.highlightElement(codeOutput);
+        
+        // Update line numbers
+        const lineCount = code.split('\n').length;
+        lineNumbers.innerHTML = Array(lineCount).fill(0).map((_, i) => `<div>${i + 1}</div>`).join('');
     }
 
+    // Handle form submission
+    document.querySelector('form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Analyzing...';
+        
+        const formData = {
+            context: document.querySelector('[name="context"]').value,
+            code: document.querySelector('[name="code"]').value,
+            language: document.querySelector('[name="language"]').value
+        };
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            let resultDiv = document.querySelector('.result');
+            if (!resultDiv) {
+                resultDiv = document.createElement('div');
+                resultDiv.className = 'result';
+                document.querySelector('form').appendChild(resultDiv);
+            }
+            
+            if (response.status !== 200) {
+                resultDiv.innerHTML = `
+                    <h3>Analysis Error:</h3>
+                    <div class="error-message">
+                        <p>${result.message || 'An error occurred during analysis'}</p>
+                        ${result.details ? `<p class="error-details">${result.details}</p>` : ''}
+                        ${response.status === 429 ? 
+                            `<p class="retry-message">
+                                <button class="retry-button" onclick="retryAnalysis(event)">
+                                    Retry Analysis
+                                </button>
+                            </p>` 
+                            : ''}
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <h3>Analysis Result:</h3>
+                    <div class="analysis-content">
+                        <pre><code>${result.analysis}</code></pre>
+                    </div>
+                `;
+                hljs.highlightAll();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            let resultDiv = document.querySelector('.result');
+            resultDiv.innerHTML = `
+                <h3>Error:</h3>
+                <div class="error-message">
+                    <p>Failed to communicate with the server. Please try again later.</p>
+                </div>
+            `;
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Analyze Code';
+        }
+    });
+    
+    function retryAnalysis(event) {
+        event.preventDefault();
+        document.querySelector('form').dispatchEvent(new Event('submit'));
+    }
+    
     // Handle textarea input
     codeInput.addEventListener('input', updateCode);
-    
+   
     // Handle textarea scroll
     codeInput.addEventListener('scroll', () => {
         codeOutput.scrollTop = codeInput.scrollTop;
@@ -93,3 +165,7 @@
     // Initial highlight
     updateCode();
 </script>
+
+<style>
+
+</style>

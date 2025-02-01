@@ -491,3 +491,59 @@ textarea {
 .course-btn:hover {
     background: rgba(56, 139, 253, 0.2);
 }
+
+
+.error-message {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.error-message p {
+    color: #c33;
+    margin: 0;
+}
+
+.error-details {
+    font-size: 0.9em;
+    margin-top: 0.5rem !important;
+    color: #666 !important;
+}
+.error-message {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+}
+
+.error-message p {
+    color: #c33;
+    margin: 0.5rem 0;
+}
+
+.retry-message {
+    margin-top: 1rem !important;
+}
+
+.retry-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.retry-button:hover {
+    background-color: #0056b3;
+}
+
+.error-details {
+    font-size: 0.9em;
+    margin-top: 0.5rem;
+    color: #666;
+}
