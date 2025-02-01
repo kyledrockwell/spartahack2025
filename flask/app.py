@@ -21,7 +21,6 @@ with open("./prompts/cse320.txt", 'r') as file:
 
 def mock_analyze_code(context, code, language):
     # AI request
-
     headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
     payload = {
         "model": "google/gemini-2.0-flash-exp:free",
@@ -33,20 +32,19 @@ def mock_analyze_code(context, code, language):
 
     # Handle the response
     if response.status_code == 200:
-        print(response.json())
-        response_text = response.json()["choices"][0]["message"]["content"]
-    else:
-        response_text = f"Error: {response.text}"
+        response_json = response.json()
+        if 'choices' in response_json and response_json['choices']:
+            analysis_text = response_json['choices'][0]['message']['content']
+            return {
+                "status": "success",
+                "analysis": f"""Analysis Result:
 
+{analysis_text}"""
+            }
+    
     return {
-        "status": "success",
-        "analysis": f"""# Analysis Result
-        Language: {language}
-        Code length: {len(code)} characters
-        Context length: {len(context)} characters
-
-        # Feedback
-        """ + '\n' + response_text
+        "status": "error",
+        "message": f"Error: {response.text}"
     }
 def login_required(f):
     @wraps(f)
@@ -90,34 +88,29 @@ def analyze():
         
         analysis_result = mock_analyze_code(context, code, language)
         
-        # Handle rate limit error specifically
-        if isinstance(analysis_result, dict) and 'error' in analysis_result:
-            error_data = analysis_result.get('error', {})
-            if error_data.get('code') == 429 or 'quota' in str(error_data).lower():
-                return jsonify({
-                    "status": "error",
-                    "message": "Rate Limit Exceeded",
-                    "details": "Please wait 60 seconds before trying again. The API has reached its request limit."
-                }), 429
-        
-        # Handle successful response
-        if isinstance(analysis_result, dict) and 'choices' in analysis_result:
-            analysis_content = analysis_result['choices'][0]['message']['content']
-            return jsonify({
-                "status": "success",
-                "analysis": analysis_content
-            })
+        # Handle successful analysis
+        if analysis_result.get("status") == "success":
+            return jsonify(analysis_result), 200
             
+        # Handle rate limiting
+        if "429" in str(analysis_result) or "quota" in str(analysis_result).lower():
+            return jsonify({
+                "status": "error",
+                "message": "Rate limit exceeded"
+            }), 429
+            
+        # Handle other errors
         return jsonify({
             "status": "error",
-            "message": "Unexpected response format",
-            "details": "Please try again"
+            "message": "Analysis failed",
+            "details": str(analysis_result)
         }), 400
         
     except Exception as e:
+        print("Exception:", str(e))
         return jsonify({
             "status": "error",
-            "message": "Analysis Error",
+            "message": "An error occurred during analysis",
             "details": str(e)
         }), 400
         
