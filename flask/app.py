@@ -319,7 +319,13 @@ def assignment_details(course_id, assignment_id):
                     <li>Unit tests for your implementation</li>
                 </ol>
             """,
-            
+            'images': [
+                {
+                    'url': '/static/images/arraylist-diagram.png',
+                    'alt': 'ArrayList Implementation Diagram',
+                    'caption': 'Visual representation of ArrayList internal structure'
+                }
+            ],
             'system_prompt': "You are helping with Project 0: Focus on Java basics, object-oriented programming..."
         },
         'cc0': {
