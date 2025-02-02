@@ -65,81 +65,86 @@
 
     // Handle form submission
     document.querySelector('form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitButton = document.querySelector('.submit-button');
-    submitButton.disabled = true;
-    submitButton.textContent = 'Analyzing...';
-    
-    const formData = {
-        context: document.querySelector('[name="context"]').value,
-        code: document.querySelector('[name="code"]').value,
-        language: document.querySelector('[name="language"]').value
-    };
-
-    try {
-        const response = await fetch('/api/analyze', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-
-        const result = await response.json();
+        e.preventDefault();
         
-        let resultDiv = document.querySelector('.result');
-        if (!resultDiv) {
-            resultDiv = document.createElement('div');
-            resultDiv.className = 'result';
-            document.querySelector('form').appendChild(resultDiv);
-        }
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Analyzing...';
         
-        if (response.status === 429) {
+        const formData = {
+            context: document.querySelector('[name="context"]').value,
+            code: document.querySelector('[name="code"]').value,
+            language: document.querySelector('[name="language"]').value
+        };
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            let resultDiv = document.querySelector('.result');
+            if (!resultDiv) {
+                resultDiv = document.createElement('div');
+                resultDiv.className = 'result';
+                document.querySelector('form').appendChild(resultDiv);
+            }
+            
+            if (response.status === 429) {
+                resultDiv.innerHTML = `
+                    <h3>Rate Limit Exceeded</h3>
+                    <div class="error-message">
+                        <p><strong>The API is currently experiencing high traffic.</strong></p>
+                        <p>Please wait a moment before trying again.</p>
+                        <button class="retry-button" onclick="retryAnalysis(event)">
+                            Retry Analysis
+                        </button>
+                    </div>
+                `;
+            } else if (response.status !== 200) {
+                resultDiv.innerHTML = `
+                    <h3>Analysis Error</h3>
+                    <div class="error-message">
+                        <p><strong>An error occurred while analyzing your code.</strong></p>
+                        <p>Please try again in a few moments.</p>
+                        <button class="retry-button" onclick="retryAnalysis(event)">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <h3>Analysis Result:</h3>
+                    <div class="analysis-content">
+                        <div class="analysis-text">
+                            ${result.analysis
+                                .replace('# Analysis Result\n', '')  // Remove the duplicate header
+                                .split('**')
+                                .map((text, index) => index % 2 === 0 ? text : `<strong>${text}</strong>`)
+                                .join('')
+                                .replace(/\n/g, '<br>')}
+                        </div>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            let resultDiv = document.querySelector('.result');
             resultDiv.innerHTML = `
-                <h3>Rate Limit Exceeded</h3>
+                <h3>Error:</h3>
                 <div class="error-message">
-                    <p><strong>The API is currently experiencing high traffic.</strong></p>
-                    <p>Please wait a moment before trying again.</p>
-                    <button class="retry-button" onclick="retryAnalysis(event)">
-                        Retry Analysis
-                    </button>
+                    <p>Failed to communicate with the server. Please try again later.</p>
                 </div>
             `;
-        } else if (response.status !== 200) {
-            resultDiv.innerHTML = `
-                <h3>Analysis Error</h3>
-                <div class="error-message">
-                    <p><strong>An error occurred while analyzing your code.</strong></p>
-                    <p>Please try again in a few moments.</p>
-                    <button class="retry-button" onclick="retryAnalysis(event)">
-                        Try Again
-                    </button>
-                </div>
-            `;
-        } else if (result.status === 'success' && result.analysis) {
-            resultDiv.innerHTML = `
-                <h3>Analysis Result:</h3>
-                <div class="analysis-content">
-                    ${result.analysis.replace(/\n/g, '<br>')}
-                </div>
-            `;
-        } else {
-            throw new Error('Invalid response format');
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Analyze Code';
         }
-    } catch (error) {
-        console.error('Error:', error);
-        let resultDiv = document.querySelector('.result');
-        resultDiv.innerHTML = `
-            <h3>Error:</h3>
-            <div class="error-message">
-                <p>Failed to communicate with the server. Please try again later.</p>
-            </div>
-        `;
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Analyze Code';
-    }
     });
     
     function retryAnalysis(event) {
@@ -219,5 +224,11 @@
     color: #e4e4e4;
     margin-bottom: 1rem;
     font-size: 1.25rem;
+}
+
+/* Add styles for strong tags within analysis content */
+.analysis-content strong {
+    color: #4a9eff;
+    font-weight: 600;
 }
 </style>

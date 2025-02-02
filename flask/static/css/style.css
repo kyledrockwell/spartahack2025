@@ -580,3 +580,32 @@ textarea {
 .retry-button:hover {
     background-color: #3355ee;
 }
+
+.analysis-content {
+    background-color: #1e1e1e;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.analysis-text {
+    color: #ffffff;
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.result h3 {
+    margin-bottom: 0.5rem;
+}
+
+/* Style the method names in blue */
+.analysis-text span.method {
+    color: #4a9eff;
+}
+
+/* Add proper spacing for each section */
+.analysis-text br + br {
+    display: block;
+    margin-top: 1em;
+}
