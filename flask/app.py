@@ -39,7 +39,7 @@ def index():
         if analysis_result["status"] == "success":
             result = analysis_result["analysis"]
             
-    return render_template('index.html', 
+    return render_template('home.html', 
                          result=result, 
                          context=context, 
                          code=code)

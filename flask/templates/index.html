@@ -3,110 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Analysis App</title>
-    <!-- Highlight.js VS Code Dark Theme -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/vs2015.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Code Input Page</title>
 </head>
 <body>
-    <div class="container">
-        <form method="POST">
-            <!-- Context input -->
-            <label class="input-label">Context:</label>
-            <textarea 
-                name="context" 
-                class="context-input"
-                placeholder="Enter context for your code analysis..."
-            >{{ context if context else '' }}</textarea>
-
-            <div class="editor-header">
-                <label>Code:</label>
-                <select name="language" class="language-select">
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="java">Java</option>
-                    <option value="cpp">C++</option>
-                </select>
-            </div>
-            <div class="editor">
-                <div class="line-numbers" id="lineNumbers">
-                    <div>1</div>
-                </div>
-                <div class="code-area">
-                    <textarea
-                        id="codeInput"
-                        name="code"
-                        spellcheck="false"
-                        placeholder="Enter your code..."
-                        required>{{ code if code else '' }}</textarea>
-                    <pre><code id="codeOutput"></code></pre>
-                </div>
-            </div>
-            
-            <button type="submit">Analyze Code</button>
-            
-            {% if result %}
-            <div class="result">
-                <h3>Analysis Result:</h3>
-                <pre><code>{{ result }}</code></pre>
-            </div>
-            {% endif %}
-        </form>
-    </div>
-
-    <!-- Highlight.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <script>
-        const codeInput = document.getElementById('codeInput');
-        const codeOutput = document.getElementById('codeOutput');
-        const lineNumbers = document.getElementById('lineNumbers');
-        const languageSelect = document.querySelector('.language-select');
-
-        // Configure highlight.js
-        hljs.configure({ languages: ['python', 'javascript', 'java', 'cpp'] });
-
-        function updateCode() {
-            const code = codeInput.value || ' ';
-            const language = languageSelect.value;
-            
-            // Update code highlighting
-            codeOutput.className = `hljs language-${language}`;
-            codeOutput.textContent = code;
-            hljs.highlightElement(codeOutput);
-            
-            // Update line numbers
-            const lineCount = (code.match(/\n/g) || []).length + 1;
-            lineNumbers.innerHTML = Array.from(
-                { length: lineCount },
-                (_, i) => `<div>${i + 1}</div>`
-            ).join('');
-        }
-
-        // Handle textarea input
-        codeInput.addEventListener('input', updateCode);
-        
-        // Handle textarea scroll
-        codeInput.addEventListener('scroll', () => {
-            codeOutput.scrollTop = codeInput.scrollTop;
-        });
-
-        // Handle language change
-        languageSelect.addEventListener('change', updateCode);
-
-        // Handle tab key
-        codeInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const start = this.selectionStart;
-                const end = this.selectionEnd;
-                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-                this.selectionStart = this.selectionEnd = start + 4;
-                updateCode();
-            }
-        });
-
-        // Initial highlight
-        updateCode();
-    </script>
+    <h2>Enter Your Code</h2>
+    <form method="post">
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code">
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
