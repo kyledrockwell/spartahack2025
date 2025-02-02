@@ -170,7 +170,7 @@ def index():
     #                      context=context, 
     #                      code=code)
 
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("home"))
 
 class RateLimitException(Exception):
     pass
