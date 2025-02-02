@@ -1,13 +1,26 @@
 # app.py
 import requests
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from authlib.integrations.flask_client import OAuth
 from functools import wraps
 import json
 from markupsafe import Markup
+import os
 
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY")  # Change this in production
 
-app.secret_key = 'your-secret-key-here'  # Change this in production
+# Configure OAuth
+oauth = OAuth(app)
+google = oauth.register(
+    name="google",
+    client_id=os.getenv("GOOGLE_CLIENT_ID", "error"),
+    client_secret=os.getenv("GOOGLE_CLIENT_SECRET", "error"),
+    access_token_url="https://oauth2.googleapis.com/token",
+    authorize_url="https://accounts.google.com/o/oauth2/auth",
+    authorize_params={"scope": "openid email profile"},
+    client_kwargs={"scope": "openid email profile"},
+)
 
 API_KEY = "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"
 OPENROUTER_URL="https://openrouter.ai/api/v1/chat/completions"
@@ -190,16 +203,26 @@ def analyze():
             "message": "An error occurred during analysis",
             "details": str(e)
         }), 400
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    return google.authorize_redirect(url_for("callback", _external=True))
+    # return render_template('login.html')
 
 
+@app.route("/callback")
+def callback():
+    token = google.authorize_access_token()
+    user_info = google.parse_id_token(token)
+    session["user"] = user_info
+    return redirect(url_for("dashboard"))
 
-@app.route('/auth/callback')
-def auth_callback():
-    # This will be implemented when adding Google OAuth
-    pass
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
+
 
 @app.route('/dashboard')
 # @login_required
