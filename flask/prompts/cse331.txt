@@ -1,0 +1,577 @@
+CSE 331 All Sections 
+
+Algorithms and Data Structures 
+
+Department of Computer Science and Engineering 
+
+College of Engineering 
+
+Michigan State University 
+
+Spring 25
+
+**Instructors:**  
+
+Manni Liu,  
+
+Sebnem Onsay  
+
+**E-Mail:**  [liumanni@msu.edu](mailto:liumanni@msu.edu),  [onsayse@msu.edu](mailto:onsayse@msu.edu) 
+
+**Liu’s Office Hours**   
+
+Wednesday: 2:00pm–3:00pm 
+
+Fridays: 5:00pm–6:00pm 
+
+Meeting ID: 546 236 5219 
+
+[https://msu.zoom.us/j/5462365219](https://msu.zoom.us/j/5462365219) (use MSU credentials to log in) 
+
+Passcode: 082624 
+
+**Onsay’s Office Hours**   
+
+Wednesdays: 4:00pm-5:00pm 
+
+Fridays: 3:30pm-4:30 pm 
+
+[https://msu.zoom.us/j/92773816260](https://msu.zoom.us/j/92773816260) (use MSU credentials to log in)  
+
+Meeting ID: 927 7381 6260 
+
+Passcode: 875410   
+
+**TA’s Office Hours**   
+
+**Md Alamin(TA)’s Office Hours**   
+
+Tuesdays: 5:00pm-6:00pm  
+
+[https://msu.zoom.us/j/9900140806](https://msu.zoom.us/j/92773816260) (use MSU credentials to log in)  
+
+Meeting ID: 990 014 0806 
+
+Passcode: 883451   
+
+**Vihanga Jayawickrama**
+
+Wednesdays: 5:00pm-6:00pm
+
+Zoom meeting link: [https://msu.zoom.us/j/4327129414](https://msu.zoom.us/j/4327129414)
+
+Meeting ID:[4327129414](https://msu.zoom.us/j/4327129414)  
+Passcode: 090396
+
+**Ruchika Gupta(TA)’s Office Hours**   
+Wednesdays: 3:00pm - 4:00pm  
+[https://msu.zoom.us/j/2752814664](https://msu.zoom.us/j/2752814664)  
+Meeting ID: 275 281 4664  
+Passcode: 619274
+
+**Class Schedule:** 
+
+All sections are in person, and in an actual classroom setting.  
+
+**Students must bring their laptop to the classroom.** 
+
+**This class does not offer Honor’s option.**  
+
+Section 1 Onsay 
+
+Tue Thu: 10:20-11:40,  
+
+Business College Complex N130
+
+Section 2 Onsay 
+
+Tue Thu: 3:00 PM-4:20 PM    Wells Hall B119
+
+Section 3 Liu 
+
+Tue Thu: 5:00 PM-6:20 PM     Wells Hall B117
+
+**_Prerequisites:_** Knowledge comparable to that taught in:  
+
+1\. CSE 260 Discrete Structures in Computer Science  
+
+2\. CSE 232 Introduction to Programming II  
+
+How is CSE 331 being taught? 
+
+![](image_78117724421736522659928_20250110153435162.png) 
+
+**Flipped Classroom Technique in CSE 331:** 
+
+*   Students are required to go through the lecture material and recordings available on D2L for that week. They must review their checklist and complete the listed activities on D2L before attending their scheduled in-class session. 
+
+*   During the scheduled in-class lecture, students will work on the lecture content, including questions and coding problems. 
+
+*   Students are required to bring their computers to class, as the course is taught using the Python programming language. 
+
+*   Please note that not every topic is covered in the recorded lectures. Attendance is mandatory, as part of the in-class lectures will introduce new content not discussed in the video recordings. This approach ensures active participation in class. Students who attend class regularly tend to earn better grades than those who do not. 
+
+**How are the recorded lectures organized?** 
+
+When you login to D2L you will see under Home, weekly modules are assigned.  
+
+Each lecture contains a series of videos. Students need to watch these recordings, review the slides that are associated with these recordings. (Please note that not every topic is covered in the recorded lectures. Attendance is mandatory as in class participation activities will collect the attendance , part of the in-class lectures will introduce new content not discussed in the video recordings) 
+
+Students need to complete the zyBooks activities prior to coming to classroom. 
+
+Students complete lecture check point quizzes on D2L prior to coming to classroom. 
+
+*   Check D2L Calendar regularly. 
+
+*   Complete all assigned zyBooks activities on **Sundays** by midnight.   
+
+*   All Lecture check point quizzes will be due on **Mondays** by midnight. (Why midnight, because it is flipped classroom and students need to watch their videos and finish getting ready for live lecture prior to coming to class) 
+
+     Recommendations for watching the recorded lecture videos.  
+
+*   You should be taking notes to refer to later! The videos will be broken up into smaller portions, so use the time before starting the next video to make sure your notes on the last section are complete. 
+
+*   Take pauses to pause and reflect on what you’re learning so far. How does this new concept relate to a past one? What doesn’t quite make sense about this yet? 
+
+*   Reflect, now that you have got some practice with material for the day, it’s time to reflect on what you learned and how you felt the day went. Maybe write down a closing section of your notes to summarize what you learned and leave notes to yourself about what you might need to study more. 
+
+*   In a few sentences, describe in your own words what you learned today. 
+
+*   Why did we learn this concept? 
+
+*   How does this concept relate to what we’ve learned previously? 
+
+*   What parts did you find tricky? Are there things you feel like you still need to work on more before you master the concept? 
+
+CSE 331 covers: 
+
+In this course, you will gain a strong theoretical and conceptual understanding of common data structures and algorithms, as well as how to apply them within larger programming projects. 
+
+Specific topics we will cover include: 
+
+*   **Asymptotic analysis,** **Algorithm Analysis, Recursion, and recurrence relations**.  
+
+*   **Sorting** and divide-and-conquer. 
+
+*   **Data structures and ADTs:** lists, stacks, queues, sets, dictionaries, linked lists, arrays, trees, balanced trees, AVL trees, Red Black Trees, Maps and Hash tables, Priority queues, binary heaps, and disjoint sets.  
+
+*   **Graphs and graph algorithms:** graph search, shortest path, and minimum spanning trees. A\* Search. 
+
+*   **Greedy algorithms, Dynamic Programming.** 
+
+This course is also designed to have a practical component to help you gain basic familiarity with techniques used within industry. You’ll be asked to: 
+
+*   Work on **programming projects** and integrate your work in an existing codebase. 
+
+*   Learn how to use an **IDE**. 
+
+*   Learn techniques for **checking correctness**: using our unit tests with PyCharm debugging, designing, and checking invariants, etc. 
+
+CSE 331 Course objectives: 
+
+Students completing this course are expected to be able to: 
+
+*   Understand several significant algorithms 
+
+*   Compare and select among fundamental data structures  
+
+*   Apply general algorithms to practical problems 
+
+*   Analysis algorithm complexity 
+
+*   Study of common complexity classes  
+
+*   Greedy Algorithms: Dijkstra's algorithm, Prim’s, Knuth’s algorithm, Minimum spanning trees 
+
+*   Divide and conquerDynamic programming 
+
+Important Dates 
+
+Class Begins 01/13/2025
+
+Open adds end 01/17/2025
+
+Last day to drop with refund 02/06/2025
+
+Last day to drop with no grade reported 03/10/2025
+
+Class Ends04/27/2025
+
+Required book for this class: 
+
+zyBooks. See information below. It is an You will need to subscribe to this e-book. It is $64.00. 
+
+![](image_69759991031736522659928_20250110153435290.png) 
+
+1\. Click any zyBooks assignment link in your learning management system
+
+(Do not go to the zyBooks website and create a new account)
+
+2\. Subscribe  
+
+Are there any other books used as a source of reference in this class? 
+
+Yes. There are plenty but you do not have to purchase them. Below are the top 2 books we use as a reference. Please note that these books are not required in any way, but they are highly recommended for future Computer Scientists, Computer and Electrical Engineers. 
+
+![](image_71578535541736522659928_20250110153435354.png) 
+
+Data Structures and Algorithms in Python 
+
+by [Michael T. Goodrich](https://www.amazon.com/Michael-T.-Goodrich/e/B001ITYBE8/ref=dp_byline_cont_book_1), [Roberto Tamassia](https://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Roberto+Tamassia&search-alias=books&field-author=Roberto+Tamassia&sort=relevancerank) , [Michael H. Goldwasser](https://www.amazon.com/s/ref=dp_byline_sr_book_3?ie=UTF8&text=Michael+H.+Goldwasser&search-alias=books&field-author=Michael+H.+Goldwasser&sort=relevancerank)  
+
+![](image_53527731251736522659928_20250110153435522.png) 
+
+From MIT Electrical Engineering and Computer Science 
+
+Introduction to Algorithms 
+
+By Thomas H. Cormen, Charles E. Leiserson and Ronald L. Rivest 
+
+Grade Assessment: 
+
+**_The instructor reserves the right to adjust the scale for course grades, if necessary._**  
+
+4.0 
+
+90% of points available 
+
+3.5 
+
+85% of points available 
+
+3.0 
+
+80% of points available 
+
+2.5 
+
+75% of points available 
+
+2.0 
+
+70% of points available 
+
+1.5 
+
+65% of points available 
+
+1.0 
+
+60% of points available 
+
+Grades are rounded to the nearest integer. See below for rounding examples:
+
+*   A grade of 89.5% will round to 90%, resulting in a grade of 4.0. 
+*   A grade of 89.45% will round down to 89%, resulting in a grade of 3.5. 
+*   A grade of 84.5% will round to 85%, resulting in a grade of 3.5. 
+*   A grade of 84.49% will round down to 84%, resulting in a grade of 3.0. 
+*   A grade of 79.5% will round to 80%, resulting in a grade of 3.0. 
+*   A grade of 79.45% will round down to 79%, resulting in a grade of 2.5. ...
+
+Projects (No drops allowed. Late submissions will incur a penalty. Failure to submit will result in a score of -100.) 
+
+7.5% 
+
+Project Quizzes (remote, uses lockdown browser, single attempt, no drops) 
+
+   5% 
+
+Coding Challenges (Drop lowest 3 CCs) 
+
+5% 
+
+Lecture Checkpoint Quizzes on D2L (unlimited attempts, drop lowest scored 3 quizzes) 
+
+5% 
+
+zyBooks Activities (Drop 2 lowest scored assignment) 
+
+10% 
+
+In class Participation, Attendance (Drop 3 lowest scored activity, 
+
+student must be present in class to earn credit, remote access will not count) 
+
+2.5% 
+
+Exam 1 (in class, in person, uses lockdown browser, single attempt, no drop) 
+
+%16.25 
+
+Exam 2 (in class, in person, uses lockdown browser, single attempt, no drop) 
+
+%16.25 
+
+Exam 3 (in class, in person, uses lockdown browser, single attempt, no drop) 
+
+%16.25 
+
+Exam 4 (in class, in person, uses lockdown browser, single attempt, no drop) 
+
+%16.25 
+
+Exams: (NO FINAL EXAM)
+
+*   There will be a total of 4 examinations.  
+
+*   **Note that CSE 331 does not have a final exam**.  
+
+*   All Exams will be in person, using D2L with lockdown browser, students must bring their laptop to take their exam, students must be present in the classroom to take this exam on D2L.  
+
+*   No remote access will be allowed. Attendance will be taken during the exam.  
+
+*   Students will show that they completed the exam then leave the room. 
+
+*   **Exam dates are entered on students’ D2L Calendar, it is students’ responsibility to check their exam dates and make note of them. Check your D2L Calendar for Exam date, time, and place, note it somewhere to avoid missing exams.** 
+
+Please note that we provide practice exams that use a lockdown browser and allow unlimited attempts. These practice exams are designed for students to use as practice and are linked to lecture checkpoints. They are not graded as 0 points. 
+
+ Projects: 
+
+ There will be several Project assignments offered. Each project focuses on using a particular data structure or a concept.  
+
+![](image_37263850961736522659928_20250110153435610.png) 
+
+*   For help on projects and class material  
+
+*   Use Piazza to post project questions.   
+
+*   Join our Help Hours. 
+
+*   Join Office Hours. 
+
+*   Please note that there will be project questions in Exams, so make sure you work on your project carefully and understand **your own** implementation or the implementation you submitted. 
+
+*   Failure to submit a project will result in a score of –100. 
+
+**Project Submission:**  
+
+All projects must be submitted through Codio. Failure to submit a project will result in a score of –100 . For detailed instructions on how to enroll in Codio, please refer to the information provided on D2L.  Project grades consist of two parts: auto grading and manual grading. Auto grading accounts for roughly 60-70% of your grade, while manual grading makes up 30-40%, depending on the specific project and its difficulty. Manual grading involves evaluating your code's runtime and space complexity.
+
+**Late Submission Policy:**
+
+Any project submitted after the deadline will incur a 10% grade deduction for every hour it is late. However, the grade for a late submission cannot be lower than 0.
+
+Project Evaluations & Quizzes: 
+
+Following the submission of each project, students will undergo evaluations using the Lockdown Browser to ensure a thorough understanding of their submitted work. These quizzes will be taken remotely, forward only, exam set up uses the lockdown browser feature on D2L. 
+
+Please note that there is no make-up for missed quizzes.  
+
+*   **Final note on deadlines:** Once a quiz deadline has passed, it will not be reopened under any circumstances. Deadlines are an integral part of this course, and maintaining fairness for all students is a priority. Please plan accordingly to complete your quizzes on time.
+
+Coding Challenge Activities: 
+
+During the course, students will be presented with programming exercises in class.  
+
+These challenges are crafted to reinforce their grasp on data structures and emulate technical interview-style questions. Students have the leeway to disregard their **3** lowest Coding Challenge Activity. Please note that there are no make-up opportunities for coding challenge activities, including for medical absences. While each challenge is designed to be tackled within an approximate time frame of 45 minutes, students will have up to one week from the release date to finalize and submit their solutions on Codio. 
+
+*   Please note that there will be Coding Challenge Activity questions in Exams, so make sure you work on your coding challenge carefully and understand **your own** implementation or the implementation you submitted. 
+
+In Class Participation, and Attendance: 
+
+Throughout the course, planned in-class activities will be conducted where students are required to answer questions, solve problems, and submit their work. These activities are designed to enhance engagement and track attendance. They must be completed in person during class and contribute 2.5% to your overall grade. Students may miss up to three in-class activities, equivalent to 1.5 weeks of classes. Please note that there are no make-up opportunities for missed activities, including those missed due to medical absences. Attendance at all regularly scheduled class meetings is a requirement of this course. Students with unexcused absences for more than three consecutive class meetings prior to the middle of the term may be dropped from the course for non-attendance. 
+
+Lecture Check Point Quizzes: 
+
+Quizzes will be accessible on D2L, comprising multiple choice and true/false questions to recap each week's lecture content. This encourages students to interact with the lecture recordings and revisit class materials. These quizzes are typically due by Monday midnight on D2L.  
+
+Important notes: 
+
+\- Quizzes may include questions pertaining to projects. 
+
+\- Missed Lecture Check Point Quizzes cannot be retaken. Students have the option to exclude their 3 lowest quiz scores on D2L from their overall grade. 
+
+\- No make-up quizzes are offered for those missing. Students can choose to drop their 3 lowest quiz scores, covering all situations, including unforeseen events. 
+
+\- This policy allows students to miss up to three quizzes without affecting their overall Lecture Review Quiz grade. 
+
+*   Regularly checking the D2L calendar is essential for students to keep track of quiz deadlines and prevent any missed quizzes.
+*   **Final note on deadlines:** Once a quiz deadline has passed, it will not be reopened under any circumstances. Deadlines are an integral part of this course, and maintaining fairness for all students is a priority. Please plan accordingly to complete your quizzes on time.
+
+zyBooks Activities: 
+
+Assignment links will be posted directly on D2L platform. Every time you log in to D2L go to zyBooks module, review the "Assignments" section to stay updated.  
+
+Once finished, submit your completed activities directly through Zybooks. There are no extensions for missed assignments, these are all take home assignments. Students have the flexibility to exclude their **2** lowest scores from the zyBooks assignments. 
+
+*   **Final note on deadlines:** Once a quiz deadline has passed, it will not be reopened under any circumstances. Deadlines are an integral part of this course, and maintaining fairness for all students is a priority. Please plan accordingly to complete your quizzes on time.
+
+Help Rooms: 
+
+Help Rooms are available **Thursday  to Friday,** from 6:00pm to 8:00pm STEM 3201. For detailed information and updates, please refer to Piazza and D2L.  
+
+Deadlines Explained:  
+
+*   Project Deadlines 
+
+*   Timeline: Projects are typically assigned for 2 weeks. 
+
+*   Due Date: Fridays by 9:00 PM.  
+
+*   Important: Projects are due at 9:00 PM, not midnight. 
+
+*   Late Penalties: Refer to the details below under the "Projects" section. 
+
+*   Project Quizzes 
+
+*   Format: Take-home quizzes. 
+
+*   Availability: Posted when the project closes. 
+
+*   Completion Time: 48 hours. 
+
+*   Due Date: Midnight at the end of the 48th hour. 
+*   No make ups no extensions.
+
+*   Coding Challenges 
+
+*   Due Date: Tuesday by midnight. 
+
+*   Lecture Checkpoint Quizzes (on D2L) 
+
+*   Due Date: Mondays by midnight. 
+
+*   zyBooks Activities 
+
+*   Due Date: Sundays by midnight. 
+
+*   In-Class Participation Activities 
+
+*   Requirement: Must participate in the in-person class. 
+
+*   Exams 
+
+*   Exam 1, 2, 3, and 4 (NO FINAL EXAM)
+
+*   Format: In-person, using Lockdown Browser. 
+
+*   Attempt: Single attempt, no drops allowed. 
+
+*   Due Date: Time and place is shown on D2L calender, in person. 
+
+Make-Up Examination Policy 
+
+In alignment with our commitment to support our students during unforeseen and challenging circumstances, we have established the following make-up examination policy. This policy is designed to accommodate students who are unable to attend scheduled examinations due to serious and unavoidable reasons. A make-up examination is a privilege, not a right, and is granted only under the following specific conditions: 
+
+*   **Medical Emergencies**: Students who are unable to attend an examination due to hospitalization or serious medical conditions must provide a valid hospital report. The report should clearly indicate the student's incapacity to attend the examination on the scheduled date. 
+
+*   **Legal Obligations**: Students who are unable to attend an examination due to mandatory legal obligations, such as court appearances, must provide a valid police report or a court document. The document should clearly state the date and nature of the legal obligation. 
+
+*    **Bereavement**: Students who have experienced the loss of an immediate family member (parent, sibling, spouse, or child) may be granted a make-up examination. Approval for a make-up examination under these circumstances requires a grief absence authorization granted by the Engineering Department. It is the student's responsibility to communicate with the department and obtain the necessary authorization in a timely manner. 
+
+*   **MSU** **Class** Conflicts: Students who have a verified scheduling conflict with another **MSU** class are eligible for a make-up examination. Documentation confirming the class conflict, such as an official class schedule or a note from the registrar, must be provided. 
+
+*   **Additional Notes:** 
+
+*   The make-up exam may differ in format and content from the original, including the possibility of an oral exam. 
+
+*   The availability of a make-up exam is at the instructor's discretion based on your specific circumstances. 
+
+*   By including this make-up examination policy in the syllabus, we aim to provide clarity and support to our students while maintaining the integrity and academic standards of our courses. We urge all students to read and understand this policy thoroughly and adhere to its provisions. 
+
+*   _This syllabus is subject to_ _change at any_ _time_ _during the semester__. Any changes made in this document during the semester will be shared with students._ 
+
+Grasping Course Content & Upholding Academic Integrity for Career Success 
+
+Understanding your algorithms and data structures is important in obtaining a good job; your success in this class will be the foundation for your career in your future. 
+
+Why Upholding Academic Integrity Matters: 
+
+1\. **Deep Understanding Over Surface Learning**: The complexities of Algorithms and Data Structures are not to be merely memorized but understood. Employers are looking for individuals who can apply, adapt, and innovate, not just regurgitate facts. 
+
+2\. **Authentic Skillset**: By ensuring that you genuinely grasp the content, you present an authentic version of yourself during job interviews. This honesty is evident, and recruiters can differentiate between those who truly know and those who don’t. 
+
+3\. **Professional Reputation**: Upholding integrity means building a reputation for honesty and reliability. In the tech industry, your reputation precedes you. Missteps can follow you throughout your career, limiting opportunities and partnerships. 
+
+The Imperative of Solo Mastery: 
+
+While collaborative discussions are valuable and encouraged, every project in this course should be the result of your individual effort. It's not just about completing assignments; it's about genuinely internalizing knowledge to stand out in job interviews. Engaging in solo work ensures that your grasp is not only genuine but also robust enough to tackle real-world challenges. Remember, in many interviews, it’s this individual prowess in Algorithms and Data Structures that will set you apart. 
+
+Incorporating Projects and Coding Challenges into Course Evaluation:  
+
+Throughout the course, students will be tasked with various projects.  
+
+Additionally, project assessments will also carry a weight on student’s grade. While students are permitted to engage in discussions with peers and use external resources for their projects, it is imperative to provide proper attribution by listing these in the 'Outside Resources Used' section within Codio. 
+
+Your genuine efforts will undoubtedly pave the way for your success in job interviews. Let us maintain integrity and dedication throughout this journey. 
+
+**Academic Integrity Policy & Consequences** 
+
+Maintaining the highest standards of academic honesty and integrity is paramount in this course. Should a student be found copying another's work or reproducing answers during an examination, not only will that exam be invalidated, but they will also undergo a subsequent verbal examination by the instructor to assess their genuine understanding and the legitimacy of their work. Violations will not be taken lightly; students found compromising their integrity will be reported to the Dean of Students for further action. It's imperative that every student remains committed to authentic learning and honest submissions. 
+
+**Academic Integrity**: Article 2.3.3 of the Academic Freedom Report states: The student shares with the faculty the responsibility for maintaining the integrity of scholarship, grades, and professional standards. In addition, CSE adheres to the policies on academic honesty specified in General Student Regulation 1.0, Protection of Scholarship and Grades; the all-University Policy on Integrity of Scholarship and Grades; and Ordinance 17.00, Examinations. (See Spartan Life: Student Handbook and Resource Guide and/or the MSU Web site.) Unless I specify differently, I anticipate that all your answers on exams and quizzes are entirely your own. If MSU rules are breached, students might face consequences, which could range from a failing mark on the assignment to a failing grade in the course. 
+
+**_Take the Spartan Code of Honor:_**  
+
+_“As a Spartan, I will strive to uphold values of the highest ethical standard. I will practice honesty in my work, foster honesty in my peers, and take pride in knowing that honor is worth more than grades. I will carry these values beyond my time as a student at Michigan State University, continuing the endeavor to build personal integrity in all that I do.”_ 
+
+_If using online revision control systems such as github.com, ensure your code is not publicly accessible. Failing to do so_ _allows_ _someone to easily copy your_ _code, putting_ _yourself at risk._ 
+
+**Depending on the severity of the incident, repercussions for academic dishonesty include failing the assignment, final grade reductions, and/or failing the course.** 
+
+*    You can learn more by following this link. ([https://ombud.msu.edu/](https://ombud.msu.edu/)), which has resources regarding academic integrity among other topics 
+
+D2L: 
+
+This course will be delivered COS through the course management system, and you will need your MSU NetID to login to the course from the _D2L homepage_ (_http://d2l.msu.edu_).  
+
+In _D2L_, you will access online lessons, course materials, and additional resources.  
+
+**Course Web Site and Communication** 
+
+Information related to the course is available on https://d2l.msu.edu 
+
+We will be using Piazza for class discussion. The system is highly catered to getting you help fast and efficiently from classmates, the TA, and myself. Rather than emailing questions to the teaching staff, I encourage you to post your questions on Piazza. If you have any problems or feedback for the developers, email team@piazza.com. 
+
+**D2L Technical Assistance** 
+
+If you need technical assistance at any time during the course or to report a problem, you can: 
+
+*   Visit the [Distance Learning Services Support Site](https://www.lib.msu.edu/dls/)  
+
+*   Visit the [Desire2Learn Help Site](http://help.d2l.msu.edu/)  ([http://help.d2l.msu.edu/](http://help.d2l.msu.edu/) )   
+
+*   Or call Distance Learning Services: (800) 500-1554 or (517) 355-2345  
+
+**Resource Persons with Disabilities (RCPD)**  
+
+*   To make an appointment with a specialist, contact:(517) 353-9642  
+
+*   Web site for RCPD:  [http://MYProfile.rcpd.msu.edu](http://myprofile.rcpd.msu.edu) 
+
+**Class Recordings**   
+
+Students have access to lecture recordings on D2L.   The recordings will be available to students registered for this class. This is intended to supplement the classroom experience. Students are expected to follow appropriate University policies and maintain the security of passwords used to access recorded lectures.  Recordings may not be reproduced, shared with those not in the class, or uploaded to other online environments.  Doing so may result in disciplinary action.   If the instructor or another University office plan other uses for the recordings beyond this class, students identifiable in the recordings will be notified to request consent prior to such use. 
+
+**Contingency Planning** 
+
+*   _In the case of connectivity issues particularly during exams, please contact me_ [_onsayse@msu.edu_](mailto:onsayse@msu.edu)  
+
+[Piazza](http://piazza.com/msu/fall2021/cse331): **Using your MSU email only**, enroll into Piazza. 
+
+![](image_47663362971736522659929_20250110153435711.png) 
+
+What is the Piazza Etiquette? 
+
+![](image_80565213181736522659929_20250110153435794.png) 
+
+Piazza is a tool for students to post Project, Lecture material questions only. It is a communication tool to help students with their assignment questions. Piazza neither can be used as a venting tool to express frustrations toward the class material, topics, nor can be used as a tool to change the students’ perception towards the TAs and the instructor of this class. Students evaluate this class at the end of the semester, feel free to share your thoughts at the end of the semester. Those who do not follow this simple etiquette will be blocked from piazza for the rest of the semester and will be reported to the Dean of Students. 
+
+**IDE use:**  
+
+JetBrains PyCharm IDE is used for projects to benefit from the debugging tool, all labs are equipped with PyCharm. It is a free product if you register with your MSU email.  
+
+![](image_22399014891736522659929_20250110153435880.png) 
+
+*   You can install PyCharm on your personal machine by visiting: [https://www.jetbrains.com/pycharm/](https://www.jetbrains.com/pycharm/)More instructions, tutorial documentation and videos are provided on D2L.  
+
+**Inform Your Instructor of Any Accommodations Needed** 
+
+Michigan State University is committed to providing equal opportunity for participation in all programs, services, and activities. Requests for accommodations by persons with disabilities may be made by contacting the Resource Center for Persons with Disabilities at 517-884-RCPD or on the web at rcpd.msu.edu. Once your eligibility for an accommodation has been determined, you will be issued a verified individual services accommodation (“VISA”) form. Please present this form to me at the start of the term and/or two weeks prior to the accommodation date (test, project, etc.). Requests received after this date will be honored whenever possible. 
+
+**Other Policies:** 
+
+Any extenuating circumstances that impact on your participation in the course should be discussed with your instructor as soon as those circumstances are known (such as absences due to illness, religious observances, or other required school activities).  
+
+All students are expected to be responsible users of the computer system provided for this course.
