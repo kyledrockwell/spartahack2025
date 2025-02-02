@@ -269,9 +269,140 @@ def dashboard_classes():
                          courses=courses,
                          username=session.get('username', 'User'))
 
+# Add these routes to your app.py
+
 @app.route('/course/<course_id>')
 def course_details(course_id):
-    return f"Course details for {course_id}"
+    # Mock assignment data - replace with database query later
+    if course_id.lower() == 'cse331' or course_id.lower() == 'cse 331':
+        assignments = [
+            {
+                'id': 'project0',
+                'title': 'Project 0: Introduction to Java',
+                'type': 'project',
+                'due_date': '2025-02-15'
+            },
+            {
+                'id': 'cc0',
+                'title': 'CC0: Basic Data Structures',
+                'type': 'coding_challenge',
+                'due_date': '2025-02-10'
+            },
+            {
+                'id': 'cc1',
+                'title': 'CC1: Advanced Data Structures',
+                'type': 'coding_challenge',
+                'due_date': '2025-02-20'
+            },
+            {
+                'id': 'cc2',
+                'title': 'CC2: Algorithm Analysis',
+                'type': 'coding_challenge',
+                'due_date': '2025-02-25'
+            }
+        ]
+        course_info = {
+            'code': 'CSE 331',
+            'title': 'Data Structures and Algorithms',
+            'description': 'Fundamental algorithms and data structures for implementation...'
+        }
+        return render_template('course.html', 
+                             course=course_info, 
+                             assignments=assignments,
+                             username=session.get('username', 'User'))
+    return "Course not found", 404
+
+@app.route('/course/<course_id>/assignment/<assignment_id>')
+def assignment_details(course_id, assignment_id):
+    # Assignment details with descriptions and images
+    assignments = {
+        'project0': {
+            'title': 'Project 0: Introduction to Java',
+            'description': """
+                <p>Welcome to CSE 331! This project will help you get familiar with Java programming
+                and prepare you for the challenging data structures ahead.</p>
+                
+                <h3>Project Goals:</h3>
+                <ul>
+                    <li>Review Java syntax and basic concepts</li>
+                    <li>Implement fundamental data structures</li>
+                    <li>Practice object-oriented programming principles</li>
+                    <li>Learn unit testing with JUnit</li>
+                </ul>
+
+                <h3>Requirements:</h3>
+                <p>You will need to implement the following:</p>
+                <ol>
+                    <li>A custom ArrayList implementation</li>
+                    <li>Basic sorting algorithms</li>
+                    <li>Unit tests for your implementation</li>
+                </ol>
+            """,
+            'images': [
+                {
+                    'url': '/static/images/arraylist-diagram.png',
+                    'alt': 'ArrayList Implementation Diagram',
+                    'caption': 'Visual representation of ArrayList internal structure'
+                }
+            ],
+            'system_prompt': "You are helping with Project 0: Focus on Java basics, object-oriented programming..."
+        },
+        'cc0': {
+            'title': 'CC0: Basic Data Structures',
+            'description': """
+                <p>Your first coding challenge will focus on implementing and working with
+                basic data structures in Java.</p>
+
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li>Arrays and ArrayLists</li>
+                    <li>Linked Lists</li>
+                    <li>Basic algorithm analysis</li>
+                </ul>
+            """,
+            'system_prompt': "You are helping with CC0: Focus on implementing and using basic data structures..."
+        },
+        'cc1': {
+            'title': 'CC1: Advanced Data Structures',
+            'description': """
+                <p>This coding challenge focuses on more complex data structures and their implementations.</p>
+
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li>Binary Search Trees</li>
+                    <li>AVL Trees</li>
+                    <li>Hash Tables</li>
+                </ul>
+            """,
+            'system_prompt': "You are helping with CC1: Focus on advanced data structure implementation..."
+        },
+        'cc2': {
+            'title': 'CC2: Algorithm Analysis',
+            'description': """
+                <p>The final coding challenge focuses on algorithm analysis and optimization.</p>
+
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li>Time complexity analysis</li>
+                    <li>Space complexity analysis</li>
+                    <li>Algorithm optimization techniques</li>
+                </ul>
+            """,
+            'system_prompt': "You are helping with CC2: Focus on algorithm analysis and complexity..."
+        }
+    }
+    
+    if assignment_id in assignments:
+        assignment = assignments[assignment_id]
+        return render_template('assignment.html',
+                             course_id=course_id,
+                             assignment_id=assignment_id,
+                             assignment_title=assignment['title'],
+                             assignment_desc=assignment['description'],
+                             assignment_images=assignment.get('images', []),
+                             system_prompt=assignment['system_prompt'],
+                             username=session.get('username', 'User'))
+    return "Assignment not found", 404
 
 @app.route('/settings')
 def settings():
@@ -281,6 +412,9 @@ def settings():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
