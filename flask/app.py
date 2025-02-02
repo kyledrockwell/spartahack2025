@@ -11,7 +11,7 @@ app.secret_key = os.getenv("SECRET_KEY", "ab")  # Change this in production
 # Configure OAuth
 
 
-API_KEY = "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"
+API_KEY = "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"
 OPENROUTER_URL="https://openrouter.ai/api/v1/chat/completions"
 
 debug = True
@@ -28,7 +28,7 @@ def mock_analyze_code(context, code, language):
     }
     
     payload = {
-        "model": "google/gemini-flash-1.5-8b-exp",
+        "model": "google/gemini-flash-1.5-8b",
         "messages": [
             {
                 "role": "system",
