@@ -34,7 +34,6 @@ with open("./prompts/cse331.txt", 'r', encoding='utf-8') as file:
     prompt = file.read()
 
 def mock_analyze_code(context, code, language):
-    # Prepare headers and improved messages
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
@@ -57,28 +56,27 @@ def mock_analyze_code(context, code, language):
             },
             {
                 "role": "user",
-                "content": debug_str  # Debug details if necessary.
+                "content": debug_str
             },
             {
                 "role": "user",
-                "content": "<COURSE SYLLABUS>\n" + prompt  # Primary user question and syllabus.
+                "content": "<COURSE SYLLABUS>\n" + prompt
             },
             {
                 "role": "user",
-                "content": "<CONTEXT>\n" + context  # Background context.
+                "content": "<CONTEXT>\n" + context
             },
             {
                 "role": "user",
-                "content": f"<{language}>\n" + code  # The code snippet.
+                "content": f"<{language}>\n" + code
             }
         ],
         "max_tokens": 500,
         "top_p": 0.4,
     }
 
-    # Rate limiting and error handling: attempt the request with retries on 429 errors.
     max_retries = 3
-    retry_delay = 2  # initial delay in seconds
+    retry_delay = 2
     response = None
 
     for attempt in range(1, max_retries + 1):
@@ -87,49 +85,71 @@ def mock_analyze_code(context, code, language):
         except requests.RequestException as e:
             return {
                 "status": "error",
-                "error": f"Request failed: {str(e)}"
+                "message": f"Request failed: {str(e)}",
+                "details": str(e)
             }
 
         if response.status_code == 429:
-            # Rate limited: wait and retry using exponential backoff.
-            time.sleep(retry_delay)
-            retry_delay *= 2
             if attempt == max_retries:
                 return {
                     "status": "error",
-                    "error": f"Rate limit exceeded. Response: {response.text}"
+                    "code": 429,
+                    "message": "Rate limit exceeded",
+                    "details": response.text
                 }
-            continue  # Retry the request.
-        else:
-            break  # Exit loop if not rate-limited.
+            time.sleep(retry_delay)
+            retry_delay *= 2
+            continue
+        break
 
-    # Process the response
-    if response is not None and response.status_code == 200:
+    if response is not None:
         try:
             response_data = response.json()
-            response_text = response_data["choices"][0]["message"]["content"]
+            
+            if response.status_code == 429 or (isinstance(response_data, dict) and 'error' in response_data):
+                return {
+                    "status": "error",
+                    "code": 429,
+                    "message": "Rate limit exceeded or API error",
+                    "details": response_data.get('error', {}).get('message', 'Unknown error')
+                }
+            
+            if response.status_code == 200:
+                if 'choices' in response_data:
+                    response_text = response_data["choices"][0]["message"]["content"]
+                else:
+                    response_text = str(response_data)
+                
+                return {
+                    "status": "success",
+                    "analysis": (
+                        f"# Analysis Result\n"
+                        f"Language: {language}\n"
+                        f"Code length: {len(code)} characters\n"
+                        f"Context length: {len(context)} characters\n\n"
+                        f"# Feedback\n{response_text}"
+                    )
+                }
+            
+            return {
+                "status": "error",
+                "message": "Unexpected API response format",
+                "details": response_data
+            }
+            
         except (ValueError, KeyError, IndexError) as e:
             return {
                 "status": "error",
-                "error": f"Failed to parse response: {str(e)}"
+                "message": f"Failed to parse response: {str(e)}",
+                "details": response.text if response else "No response"
             }
-    else:
-        return {
-            "status": "error",
-            "error": f"Unexpected error: {response.text if response is not None else 'No response received.'}"
-        }
-
+    
     return {
-        "status": "success",
-        "analysis": (
-            f"# Analysis Result\n"
-            f"Language: {language}\n"
-            f"Code length: {len(code)} characters\n"
-            f"Context length: {len(context)} characters\n\n"
-            f"# Feedback\n{response_text}"
-        )
+        "status": "error",
+        "message": "No response received from API",
+        "details": "The API request failed to return any response"
     }
-
+    
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -137,6 +157,7 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
@@ -172,28 +193,23 @@ def analyze():
         
         analysis_result = mock_analyze_code(context, code, language)
         
-        # Handle rate limit error specifically
-        if isinstance(analysis_result, dict) and 'error' in analysis_result:
-            error_data = analysis_result.get('error', {})
-            if error_data.get('code') == 429 or 'quota' in str(error_data).lower():
-                return jsonify({
-                    "status": "error",
-                    "message": "Rate Limit Exceeded",
-                    "details": "Please wait 60 seconds before trying again. The API has reached its request limit."
-                }), 429
+        if analysis_result.get('code') == 429:
+            return jsonify({
+                "status": "error",
+                "message": "Rate Limit Exceeded",
+                "details": analysis_result.get('details', 'Please wait before trying again')
+            }), 429
         
-        # Handle successful response
-        if isinstance(analysis_result, dict) and 'choices' in analysis_result:
-            analysis_content = analysis_result['choices'][0]['message']['content']
+        if analysis_result.get('status') == 'success':
             return jsonify({
                 "status": "success",
-                "analysis": analysis_content
-            })
+                "analysis": analysis_result['analysis']
+            }), 200
             
         return jsonify({
             "status": "error",
-            "message": "Unexpected response format",
-            "details": "Please try again"
+            "message": analysis_result.get('message', 'Analysis failed'),
+            "details": analysis_result.get('details', 'Unknown error')
         }), 400
         
     except Exception as e:
@@ -203,12 +219,9 @@ def analyze():
             "details": str(e)
         }), 400
         
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return google.authorize_redirect(url_for("callback", _external=True))
-    # return render_template('login.html')
-
 
 @app.route("/callback")
 def callback():
@@ -217,20 +230,11 @@ def callback():
     session["user"] = user_info
     return redirect(url_for("dashboard"))
 
-
-# @app.route("/logout")
-# def logout():
-#     session.pop("user", None)
-#     return redirect(url_for("home"))
-
-
 @app.route('/dashboard')
-# @login_required
 def dashboard():
     return redirect(url_for('dashboard_personal'))
 
 @app.route('/dashboard/personal', methods=['GET', 'POST'])
-# @login_required
 def dashboard_personal():
     if request.method == 'POST':
         # Handle POST request logic here
@@ -241,14 +245,12 @@ def dashboard_personal():
                          username=session.get('username', 'User'))
 
 @app.route('/dashboard/classes')
-# @login_required
 def dashboard_classes():
     # Mock course data - replace with database query
     courses = [
         {'id': 'cse142', 'code': 'CSE 142', 'title': 'Computer Programming I'},
         {'id': 'cse143', 'code': 'CSE 143', 'title': 'Computer Programming II'},
         {'id': 'cse373', 'code': 'CSE 373', 'title': 'Data Structures & Algorithms'},
-        # Add more courses as needed
     ]
     return render_template('dashboard.html', 
                          active_page='classes',
@@ -256,13 +258,10 @@ def dashboard_classes():
                          username=session.get('username', 'User'))
 
 @app.route('/course/<course_id>')
-# @login_required
 def course_details(course_id):
-    # This will be implemented to show course-specific assignments
     return f"Course details for {course_id}"
 
 @app.route('/settings')
-# @login_required
 def settings():
     return "Settings page"
 
@@ -273,4 +272,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
