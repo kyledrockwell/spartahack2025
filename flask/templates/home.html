@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | DuckyStudy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollreveal/4.0.0/scrollreveal.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="logo">DuckyStudy</a>
+            <a href="{{ url_for('dashboard_classes') }}" class="sign-in-button">Courses</a>
+        </div>
+    </nav>
+    <section class="hero">
+        <!-- Floating Ducks -->
+        <div class="duck" style="left: 10%; top: 15%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 30%; top: 25%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 50%; top: 20%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 70%; top: 10%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 15%; top: 30%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 85%; top: 15%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 40%; top: 35%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 60%; top: 25%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 25%; top: 20%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+        <div class="duck" style="left: 75%; top: 30%;">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Duck">
+        </div>
+       
+        <!-- Large Floating Duck -->
+        <div class="large-floating-duck">
+            <img src="{{ url_for('static', filename='images/duck.png') }}" alt="Large Floating Duck">
+        </div>
+        <div class="hero-content">
+            <h1>Welcome to DuckyStudy</h1>
+            <p>Helping university students improve their coding skills with AI-driven insights</p>
+            <a href="{{ url_for('dashboard_personal') }}" id="get-started-button">Get Started</a>
+        </div>
+    </section>
+    <section class="features">
+        <h2 class="section-title">Why Choose DuckyStudy?</h2>
+        <div class="features-container">
+            <div class="feature-item">
+                <h3>Personalized Code Analysis</h3>
+                <p>Input your code and context, and our AI will provide tailored suggestions on how to improve your code.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Study Recommendations</h3>
+                <p>Based on your coding challenges, DuckyStudy will recommend topics for you to study for future exams or general improvement.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Multi-Language Support</h3>
+                <p>DuckyStudy works with Python, JavaScript, Java, C++, and more, making it versatile for various programming tasks.</p>
+            </div>
+        </div>
+    </section>
+    <section class="about">
+        <h2 class="section-title">About DuckyStudy</h2>
+        <p>DuckyStudy is an AI-powered tool designed specifically for university students in computer science classes. By inputting both the context of your code and the code itself, you'll receive detailed feedback on how to improve your code and study suggestions to help you prepare for exams and boost your skills in the long term.</p>
+    </section>
+    <footer class="footer">
+        <p>&copy; 2025 DuckyStudy | All Rights Reserved</p>
+    </footer>
+    <script>
+        // Handle duck visibility on scroll
+        const largeDuck = document.querySelector('.large-floating-duck');
+        const heroSection = document.querySelector('.hero');
+        
+        window.addEventListener('scroll', () => {
+            const heroRect = heroSection.getBoundingClientRect();
+            const heroBottom = heroRect.bottom;
+            
+            if (heroBottom <= largeDuck.offsetHeight + 80) {
+                largeDuck.classList.add('hidden');
+            } else {
+                largeDuck.classList.remove('hidden');
+            }
+        });
+
+        // ScrollReveal animations
+        ScrollReveal().reveal('.hero', { delay: 500, duration: 1000 });
+        ScrollReveal().reveal('.features', { delay: 700, duration: 1200 });
+        ScrollReveal().reveal('.about', { delay: 900, duration: 1300 });
+    </script>
+</body>
+</html>
