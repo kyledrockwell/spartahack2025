@@ -9,7 +9,7 @@ from markupsafe import Markup
 import os
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")  # Change this in production
+app.secret_key = os.getenv("SECRET_KEY", "ab")  # Change this in production
 
 # Configure OAuth
 oauth = OAuth(app)
@@ -160,25 +160,27 @@ def login_required(f):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    result = None
-    context = None
-    code = None
+    # result = None
+    # context = None
+    # code = None
     
-    if request.method == 'POST':
-        context = request.form.get('context', '')
-        code = request.form.get('code', '')
-        language = request.form.get('language', 'python')
+    # if request.method == 'POST':
+    #     context = request.form.get('context', '')
+    #     code = request.form.get('code', '')
+    #     language = request.form.get('language', 'python')
         
-        # Here you would typically make an API call
-        analysis_result = mock_analyze_code(context, code, language)
+    #     # Here you would typically make an API call
+    #     analysis_result = mock_analyze_code(context, code, language)
         
-        if analysis_result["status"] == "success":
-            result = analysis_result["analysis"]
+    #     if analysis_result["status"] == "success":
+    #         result = analysis_result["analysis"]
             
-    return render_template('index.html', 
-                         result=result, 
-                         context=context, 
-                         code=code)
+    # return render_template('index.html', 
+    #                      result=result, 
+    #                      context=context, 
+    #                      code=code)
+
+    return redirect(url_for("dashboard"))
 
 class RateLimitException(Exception):
     pass
