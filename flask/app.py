@@ -1,10 +1,7 @@
 # app.py
 import time
 import requests
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
-from authlib.integrations.flask_client import OAuth
-from functools import wraps
-import json
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from markupsafe import Markup
 import os
 
@@ -12,16 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "ab")  # Change this in production
 
 # Configure OAuth
-oauth = OAuth(app)
-google = oauth.register(
-    name="google",
-    client_id=os.getenv("GOOGLE_CLIENT_ID", "error"),
-    client_secret=os.getenv("GOOGLE_CLIENT_SECRET", "error"),
-    access_token_url="https://oauth2.googleapis.com/token",
-    authorize_url="https://accounts.google.com/o/oauth2/auth",
-    authorize_params={"scope": "openid email profile"},
-    client_kwargs={"scope": "openid email profile"},
-)
+
 
 API_KEY = "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"
 OPENROUTER_URL="https://openrouter.ai/api/v1/chat/completions"
@@ -159,14 +147,6 @@ def mock_analyze_code(context, code, language):
         "message": "No response received from API",
         "details": "The API request failed to return any response"
     }
-    
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user' not in session:
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -230,17 +210,20 @@ def analyze():
             "message": "Analysis Error",
             "details": str(e)
         }), 400
-        
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return google.authorize_redirect(url_for("callback", _external=True))
 
-@app.route("/callback")
-def callback():
-    token = google.authorize_access_token()
-    user_info = google.parse_id_token(token)
-    session["user"] = user_info
-    return redirect(url_for("dashboard"))
+@app.route('/home', methods=['GET'])
+def home():
+    return render_template('home.html')  
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     return google.authorize_redirect(url_for("callback", _external=True))
+
+# @app.route("/callback")
+# def callback():
+#     token = google.authorize_access_token()
+#     user_info = google.parse_id_token(token)
+#     session["user"] = user_info
+#     return redirect(url_for("dashboard"))
 
 @app.route('/dashboard')
 def dashboard():
@@ -251,24 +234,22 @@ def dashboard_personal():
     if request.method == 'POST':
         # Handle POST request logic here
         pass
-    # Handle GET request
     return render_template('dashboard.html', 
                          active_page='personal',
-                         username=session.get('username', 'User'))
+                         username='Student')  # Default username
 
 @app.route('/dashboard/classes')
 def dashboard_classes():
-    # Mock course data - replace with database query
+    # Mock course data
     courses = [
-        {'id': 'cse142', 'code': 'CSE 142', 'title': 'Computer Programming I'},
-        {'id': 'cse143', 'code': 'CSE 143', 'title': 'Computer Programming II'},
-        {'id': 'cse373', 'code': 'CSE 373', 'title': 'Data Structures & Algorithms'},
+        {'id': 'cse331', 'code': 'CSE 331', 'title': 'Data Structures and Algorithms'},
+        {'id': 'cse320', 'code': 'CSE 335', 'title': 'Object Oriented Programming'},
+        {'id': 'cse380', 'code': 'CSE 380', 'title': 'Cloud Computing and Information Management'},
     ]
     return render_template('dashboard.html', 
                          active_page='classes',
                          courses=courses,
-                         username=session.get('username', 'User'))
-
+                         username='Student')  # Default username
 # Add these routes to your app.py
 
 @app.route('/course/<course_id>')
@@ -278,7 +259,7 @@ def course_details(course_id):
         assignments = [
             {
                 'id': 'project0',
-                'title': 'Project 0: Introduction to Java',
+                'title': 'Project 0: Linked Lists',
                 'type': 'project',
                 'due_date': '2025-02-15'
             },
@@ -309,7 +290,7 @@ def course_details(course_id):
         return render_template('course.html', 
                              course=course_info, 
                              assignments=assignments,
-                             username=session.get('username', 'User'))
+                             username='Student')
     return "Course not found", 404
 
 @app.route('/course/<course_id>/assignment/<assignment_id>')
@@ -338,13 +319,7 @@ def assignment_details(course_id, assignment_id):
                     <li>Unit tests for your implementation</li>
                 </ol>
             """,
-            'images': [
-                {
-                    'url': '/static/images/arraylist-diagram.png',
-                    'alt': 'ArrayList Implementation Diagram',
-                    'caption': 'Visual representation of ArrayList internal structure'
-                }
-            ],
+            
             'system_prompt': "You are helping with Project 0: Focus on Java basics, object-oriented programming..."
         },
         'cc0': {
@@ -401,7 +376,7 @@ def assignment_details(course_id, assignment_id):
                              assignment_desc=assignment['description'],
                              assignment_images=assignment.get('images', []),
                              system_prompt=assignment['system_prompt'],
-                             username=session.get('username', 'User'))
+                             username='Student')
     return "Assignment not found", 404
 
 @app.route('/settings')
@@ -410,11 +385,17 @@ def settings():
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    
     return redirect(url_for('login'))
 
 
+@app.route('/dashboard/home')
+def dashboard_home():
+    return redirect(url_for('home'))
 
+@app.route('/dashboard/courses')
+def dashboard_courses():
+    return render_template('dashboard_courses.html', active_page='courses')
 
 if __name__ == '__main__':
     app.run(debug=True)

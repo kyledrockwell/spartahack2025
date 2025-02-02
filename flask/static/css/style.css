@@ -1,11 +1,14 @@
 /* static/css/style.css */
 :root {
-    --bg-dark: #0d1117;
+    --bg-dark: #031926;
     --bg-darker: #010409;
     --text-light: #c9d1d9;
     --border: #30363d;
     --keyword: #ff7b72;
-    --function: #d2a8ff;
+    --function: #ffb86c;
+    --primary: #ff9f1c;    /* Main orange color */
+    --primary-light: #ffb74d;  /* Lighter orange */
+    --primary-dark: #f57c00;   /* Darker orange */
 }
 
 body {
@@ -91,8 +94,8 @@ body {
 
 #codeInput:focus {
     outline: none;
-    border-color: #388bfd;
-    box-shadow: 0 0 0 1px #388bfd, 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary), 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #codeOutput {
@@ -168,7 +171,7 @@ button:hover {
 
 /* Added for better text selection visibility */
 ::selection {
-    background: rgba(56, 139, 253, 0.4);
+    background: rgba(255, 159, 28, 0.4);
 }
 
 /* Added for scrollbar styling */
@@ -222,7 +225,7 @@ textarea {
     width: 1000px;
     height: 1000px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #238636 0%, #388bfd 100%);
+    background: linear-gradient(45deg, var(--primary) 0%, var(--primary-light) 100%);
     filter: blur(80px);
     opacity: 0.15;
     animation: float 20s ease-in-out infinite;
@@ -236,8 +239,7 @@ textarea {
     width: 800px;
     height: 800px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #8957e5 0%, #d2a8ff 100%);
-    filter: blur(80px);
+    background: linear-gradient(45deg, var(--primary-dark) 0%, var(--primary-light) 100%);    filter: blur(80px);
     opacity: 0.15;
     animation: float 15s ease-in-out infinite reverse;
     bottom: -300px;
@@ -272,7 +274,7 @@ textarea {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 12px;
-    background: linear-gradient(45deg, #388bfd, #8957e5);
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -351,13 +353,13 @@ textarea {
 }
 
 .auth-footer a {
-    color: #388bfd;
+    color: var(--primary);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .auth-footer a:hover {
-    color: #58a6ff;
+    color: var(--primary-light);
     text-decoration: underline;
 }
 
@@ -400,7 +402,7 @@ textarea {
 
 .nav-header h2 {
     font-size: 24px;
-    background: linear-gradient(45deg, #388bfd, #8957e5);
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -430,12 +432,12 @@ textarea {
 }
 
 .nav-item:hover {
-    background: rgba(56, 139, 253, 0.1);
+    background: rgba(255, 159, 28, 0.1);
 }
 
 .nav-item.active {
-    background: rgba(56, 139, 253, 0.15);
-    color: #388bfd;
+    background: rgba(255, 159, 28, 0.15);
+    color: var(--primary);
 }
 
 .nav-divider {
@@ -469,11 +471,11 @@ textarea {
 .course-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: rgba(56, 139, 253, 0.4);
+    border-color: rgba(255, 159, 28, 0.4);
 }
 
 .course-card h3 {
-    color: #388bfd;
+    color: var(--primary);
     margin-bottom: 8px;
 }
 
@@ -481,15 +483,15 @@ textarea {
     display: inline-block;
     margin-top: 16px;
     padding: 8px 16px;
-    background: rgba(56, 139, 253, 0.1);
-    color: #388bfd;
+    background: rgba(255, 159, 28, 0.1);
+    color: var(--primary);
     border-radius: 6px;
     text-decoration: none;
     transition: all 0.2s ease;
 }
 
 .course-btn:hover {
-    background: rgba(56, 139, 253, 0.2);
+    background: rgba(255, 159, 28, 0.2);
 }
 
 
@@ -529,7 +531,7 @@ textarea {
 }
 
 .retry-button {
-    background-color: #007bff;
+    background-color: var(--primary);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -539,7 +541,7 @@ textarea {
 }
 
 .retry-button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-dark);
 }
 
 .error-details {
@@ -580,7 +582,6 @@ textarea {
 .retry-button:hover {
     background-color: #3355ee;
 }
-
 .analysis-content {
     background-color: #1e1e1e;
     padding: 1.5rem;
@@ -601,11 +602,250 @@ textarea {
 
 /* Style the method names in blue */
 .analysis-text span.method {
-    color: #4a9eff;
+    color: var(--primary);
 }
 
 /* Add proper spacing for each section */
 .analysis-text br + br {
     display: block;
     margin-top: 1em;
+}
+
+
+/* Add these to your existing style.css */
+
+.course-header {
+    margin-bottom: 32px;
+}
+
+.course-header h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: var(--primary);
+}
+
+.course-header p {
+    color: var(--text-light);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.assignments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.assignment-card {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.assignment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: rgba(255, 159, 28, 0.4);
+}
+
+.assignment-type {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.assignment-type:contains("project") {
+    background: rgba(35, 134, 54, 0.2);
+    color: #2ea043;
+}
+
+.assignment-type:contains("coding_challenge") {
+    background: rgba(255, 159, 28, 0.2);
+    color: var(--primary);
+}
+
+.assignment-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.assignment-card p {
+    color: var(--text-light);
+    opacity: 0.8;
+    margin-bottom: 16px;
+}
+
+.assignment-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 159, 28, 0.1);
+    color: var(--primary);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.assignment-btn:hover {
+    background: rgba(255, 159, 28, 0.2);
+}
+
+/* Add these to your existing style.css */
+
+.course-header {
+    margin-bottom: 32px;
+}
+
+.course-header h1 {
+    font-size: 32px;
+    margin-bottom: 12px;
+    color: var(--primary);
+
+}
+
+.course-header p {
+    color: var(--primary);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+.assignments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.assignment-card {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.assignment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: rgba(56, 139, 253, 0.4);
+}
+
+.assignment-type {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.assignment-type:contains("project") {
+    background: rgba(35, 134, 54, 0.2);
+    color: #2ea043;
+}
+
+.assignment-type:contains("coding_challenge") {
+    background: rgba(56, 139, 253, 0.2);
+    color: #388bfd;
+}
+
+.assignment-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.assignment-card p {
+    color: var(--text-light);
+    opacity: 0.8;
+    margin-bottom: 16px;
+}
+
+.assignment-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(56, 139, 253, 0.1);
+    color: #388bfd;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.assignment-btn:hover {
+    background: rgba(56, 139, 253, 0.2);
+}
+
+/* Assignment Description Styles */
+.assignment-description {
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.assignment-title {
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.assignment-content {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.assignment-content p {
+    margin-bottom: 16px;
+}
+
+.assignment-content ul, 
+.assignment-content ol {
+    margin-left: 24px;
+    margin-bottom: 16px;
+}
+
+.assignment-content li {
+    margin-bottom: 8px;
+}
+
+.assignment-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.image-container {
+    background: var(--bg-darker);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.assignment-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-caption {
+    padding: 12px;
+    color: var(--text-light);
+    font-size: 14px;
+    text-align: center;
+    border-top: 1px solid var(--border);
 }
