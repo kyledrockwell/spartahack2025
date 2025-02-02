@@ -1,0 +1,249 @@
+<!-- templates/assignment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ assignment_id }} - Code Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/vs2015.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="dashboard-nav">
+            <div class="nav-header">
+                <h2>Code Tutor</h2>
+                <p>Welcome, {{ username }}</p>
+            </div>
+            
+            <div class="nav-links">
+                <a href="{{ url_for('course_details', course_id=course_id) }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>
+                    </svg>
+                    Back to Course
+                </a>
+                
+                <div class="nav-divider"></div>
+                
+                <a href="{{ url_for('dashboard') }}" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Dashboard
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <main class="dashboard-content">
+            <div class="container">
+                <!-- Assignment Description Section -->
+                <div class="assignment-description">
+                    <h1 class="assignment-title">{{ assignment_title }}</h1>
+                    <div class="assignment-content">
+                        {% if assignment_desc %}
+                            {{ assignment_desc | safe }}
+                        {% endif %}
+                    </div>
+                    {% if assignment_images %}
+                        <div class="assignment-images">
+                            {% for image in assignment_images %}
+                                <div class="image-container">
+                                    <img src="{{ image.url }}" alt="{{ image.alt }}" class="assignment-image">
+                                    {% if image.caption %}
+                                        <p class="image-caption">{{ image.caption }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <form method="POST" class="code-analysis-form">
+                    <!-- Context input -->
+                    <label class="input-label">Context:</label>
+                    <textarea
+                        name="context"
+                        class="context-input"
+                        placeholder="Enter context for your code analysis..."
+                    >{{ context if context else '' }}</textarea>
+                    
+                    <div class="editor-header">
+                        <label>Code:</label>
+                        <select name="language" class="language-select">
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="java">Java</option>
+                            <option value="cpp">C++</option>
+                        </select>
+                    </div>
+                    
+                    <div class="editor">
+                        <div class="line-numbers" id="lineNumbers">
+                            <div>1</div>
+                        </div>
+                        <div class="code-area">
+                            <textarea
+                                id="codeInput"
+                                name="code"
+                                spellcheck="false"
+                                placeholder="Enter your code..."
+                                required>{{ code if code else '' }}</textarea>
+                            <pre><code id="codeOutput"></code></pre>
+                        </div>
+                    </div>
+                   
+                    <button type="submit" class="submit-button">Analyze Code</button>
+                    <div class="result"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+        const codeInput = document.getElementById('codeInput');
+        const codeOutput = document.getElementById('codeOutput');
+        const lineNumbers = document.getElementById('lineNumbers');
+        const languageSelect = document.querySelector('.language-select');
+
+        // Configure highlight.js
+        hljs.configure({
+            languages: ['python', 'javascript', 'java', 'cpp', 'html', 'css'],
+        });
+
+        function updateCode() {
+            const code = codeInput.value || ' ';
+            const language = languageSelect.value;
+           
+            // Update code highlighting
+            codeOutput.className = `hljs language-${language}`;
+            codeOutput.textContent = code;
+            hljs.highlightElement(codeOutput);
+            
+            // Update line numbers
+            const lineCount = code.split('\n').length;
+            lineNumbers.innerHTML = Array(lineCount).fill(0).map((_, i) => `<div>${i + 1}</div>`).join('');
+        }
+
+        // Handle form submission
+        document.querySelector('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = document.querySelector('.submit-button');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Analyzing...';
+            
+            const formData = {
+                context: document.querySelector('[name="context"]').value,
+                code: document.querySelector('[name="code"]').value,
+                language: document.querySelector('[name="language"]').value,
+                assignment_id: '{{ assignment_id }}'  // Pass assignment ID to backend
+            };
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                let resultDiv = document.querySelector('.result');
+                if (!resultDiv) {
+                    resultDiv = document.createElement('div');
+                    resultDiv.className = 'result';
+                    document.querySelector('form').appendChild(resultDiv);
+                }
+                
+                if (response.status === 429) {
+                    resultDiv.innerHTML = `
+                        <h3>Rate Limit Exceeded</h3>
+                        <div class="error-message">
+                            <p><strong>The API is currently experiencing high traffic.</strong></p>
+                            <p>Please wait a moment before trying again.</p>
+                            <button class="retry-button" onclick="retryAnalysis(event)">
+                                Retry Analysis
+                            </button>
+                        </div>
+                    `;
+                } else if (response.status !== 200) {
+                    resultDiv.innerHTML = `
+                        <h3>Analysis Error</h3>
+                        <div class="error-message">
+                            <p><strong>An error occurred while analyzing your code.</strong></p>
+                            <p>Please try again in a few moments.</p>
+                            <button class="retry-button" onclick="retryAnalysis(event)">
+                                Try Again
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>Analysis Result:</h3>
+                        <div class="analysis-content">
+                            <div class="analysis-text">
+                                ${result.analysis
+                                    .replace('# Analysis Result\n', '')
+                                    .split('**')
+                                    .map((text, index) => index % 2 === 0 ? text : `<strong>${text}</strong>`)
+                                    .join('')
+                                    .replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                let resultDiv = document.querySelector('.result');
+                resultDiv.innerHTML = `
+                    <h3>Error:</h3>
+                    <div class="error-message">
+                        <p>Failed to communicate with the server. Please try again later.</p>
+                    </div>
+                `;
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Analyze Code';
+            }
+        });
+        
+        function retryAnalysis(event) {
+            event.preventDefault();
+            document.querySelector('form').dispatchEvent(new Event('submit'));
+        }
+        
+        // Handle textarea input
+        codeInput.addEventListener('input', updateCode);
+       
+        // Handle textarea scroll
+        codeInput.addEventListener('scroll', () => {
+            codeOutput.scrollTop = codeInput.scrollTop;
+        });
+
+        // Handle language change
+        languageSelect.addEventListener('change', updateCode);
+
+        // Handle tab key
+        codeInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+                updateCode();
+            }
+        });
+
+        // Initial highlight
+        updateCode();
+    </script>
+</body>
+</html>
