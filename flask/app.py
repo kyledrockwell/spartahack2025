@@ -117,17 +117,23 @@ def mock_analyze_code(context, code, language):
             if response.status_code == 200:
                 if 'choices' in response_data:
                     response_text = response_data["choices"][0]["message"]["content"]
+                    # Replace double asterisks with HTML bold tags
+                    response_text = response_text.replace("**", "<strong>")
+                    # Fix any odd number of replacements
+                    if response_text.count("<strong>") > response_text.count("</strong>"):
+                        response_text = response_text.replace("<strong>", "**")
                 else:
                     response_text = str(response_data)
                 
                 return {
                     "status": "success",
                     "analysis": (
-                        f"# Analysis Result\n"
+                        "# Analysis Result\n"
                         f"Language: {language}\n"
                         f"Code length: {len(code)} characters\n"
                         f"Context length: {len(context)} characters\n\n"
-                        f"# Feedback\n{response_text}"
+                        "# Feedback\n"
+                        f"{response_text}"
                     )
                 }
             
